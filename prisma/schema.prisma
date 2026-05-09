@@ -1,0 +1,45 @@
+// This is your Prisma schema file
+// Docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider        = "prisma-client-js"
+  previewFeatures = ["driverAdapters"]
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+model User {
+  id           String    @id @default(cuid())
+  name         String
+  email        String    @unique
+  passwordHash String
+  createdAt    DateTime  @default(now())
+  updatedAt    DateTime  @updatedAt
+  projects     Project[]
+}
+
+model Project {
+  id                       String   @id @default(cuid())
+  userId                   String
+  user                     User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  title                    String
+  industry                 String
+  targetUsers              String
+  problem                  String
+  solution                 String
+  goals                    String
+  budgetLevel              String
+  timeline                 String
+  generatedSummary         String
+  generatedFeatures        Json
+  generatedTechStack       Json
+  generatedUserStories     Json
+  generatedRoadmap         Json
+  generatedRisks           Json
+  generatedMonetization    String
+  generatedLaunchChecklist Json
+  createdAt                DateTime @default(now())
+  updatedAt                DateTime @updatedAt
+}
